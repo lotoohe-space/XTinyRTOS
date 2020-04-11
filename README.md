@@ -1,4 +1,4 @@
-XTinyModbus
+XTinyRTOS
 ===
 
 一个非常小的RTOS，采用纯C语言编写，支持同级优先级轮询，高优先级先执行等特性。<br>
