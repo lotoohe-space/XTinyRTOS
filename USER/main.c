@@ -1,29 +1,29 @@
-#include "led.h"
+
 #include "delay.h"
-#include "key.h"
 #include "sys.h"
-#include "lcd.h"
 #include "usart.h"	 
 #include "tim3.h"
-
-#include "w25qxx.h"
-#include "touch.h"
-#include "GBK_LibDrive.h"	
+#include "net_init.h"
 #include <stdlib.h>
 
 #include "RTOS_task.h"
 #include "RTOS_APP.h"
-
+#include "lwip/apps/httpd.h"
+#include "lwip/apps/lwiperf.h"
 
  int main(void)
  {	 		     
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
 	uart_init(115200);	 	//串口初始化为115200
 	 
- 	LED_Init();			     //LED端口初始化
 	OSInit();
 	SysTick_Config(SystemCoreClock / OS_TICKS_PER_SEC);
-	RTOSUserInit();
+	 
+	if(lwip_comm_init()==0){
+		//printf("网络初始化成功..\r\n");
+	}
+	httpd_init();
+	//RTOSUserInit();
 	OSStart();
 	while(1);
 }

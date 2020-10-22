@@ -7,6 +7,7 @@
 #include "usart.h"
 PTASK_TCB task0;
 PTASK_TCB task1;
+PTASK_TCB task2;
 PTIMER_CB usartTimer;
 PSEM_CB		usartSem;
 PMUTEX_CB usartMutex;
@@ -24,7 +25,7 @@ void Task0(void* arg){
 //		MutexUnlock(usartMutex);
 //		OSTaskDelay(300);
 		
-			MsgGet(usartMsg,(void**)&msg,0);
+			MsgGet(usartMsg,(void**)&msg,0xFFFFFFFF);
 			sendCache = ((*msg)%10+'0');
 			uart_send_bytes(&sendCache,1);	
 			OSTaskDelay(20);
@@ -42,10 +43,14 @@ void Task1(void* arg){
 //		MutexUnlock(usartMutex);
 //		OSTaskDelay(1000);
 		
-		MsgPut(usartMsg,&msg,0);
+		MsgPut(usartMsg,&msg,0xFFFFFFFF);
 		msg++;
 		OSTaskDelay(200);
 	}
+}
+void Task2(void* arg){
+	arg=arg;
+	
 }
 void TaskTimer(void* arg){
 	arg=arg;
@@ -57,6 +62,7 @@ void TaskInit(void* arg){
 	arg=arg;
 	task0=OSCreateTask(Task0,NULL,5,128);
 	task1=OSCreateTask(Task1,NULL,5,128);
+	task2=OSCreateTask(Task2,NULL,5,128);
 	usartTimer=TimerCreate(TaskTimer,NULL,5,128,TIMER_MODE_ONCE,180);
 	TimerStart(usartTimer);
 	usartSem=SemCreate(0,6);

@@ -72,7 +72,9 @@ uint32 MutexLock(PMUTEX_CB pMUTEX,uint32 mutexWaitDelay){
 		OSExitExclusiveMode();
 		return TRUE;
 	}else{
-		OSTaskDelay(mutexWaitDelay);
+		if(mutexWaitDelay!=0){
+			OSTaskDelay(mutexWaitDelay);
+		}
 		if(pMUTEX->mutexFlag == 0){
 			OSEnterExclusiveMode();
 			pMUTEX->mutexFlag=1;

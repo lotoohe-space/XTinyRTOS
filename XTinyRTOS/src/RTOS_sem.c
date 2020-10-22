@@ -81,7 +81,9 @@ uint32 SemPend(PSEM_CB pSEM,uint32 semWaitDelay){
 		return TRUE;
 	}else{
 		/*延时后在查看*/
-		OSTaskDelay(semWaitDelay);
+		if(semWaitDelay!=0){
+			OSTaskDelay(semWaitDelay);
+		}
 		if(pSEM->semVal!=0){
 			/*有信号量*/
 			OSEnterExclusiveMode();

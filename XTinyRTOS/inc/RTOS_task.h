@@ -10,8 +10,8 @@
 
 /*********************************配置宏************************************/
 #define OS_TICKS_PER_SEC 	1000		/*RTOS调度频率*/
-#define TASK_MIN_LEVEL 		10			/** 设置最小优先级 */
-#define TASK_TCB_NUM 			16			/** 最多个任务 */
+#define TASK_MIN_LEVEL 		10			/*设置最小优先级 */
+#define TASK_TCB_NUM 			16			/*最多个任务 */
 /*********************************结束******************************************/
 
 /*********************************自定义类型************************************/
@@ -57,6 +57,7 @@ uint32 		OSSystickCount(void);
 TASK_TCB *OSCreateTask(TaskRunFunction taskFun,void *prg,uint8 level,uint32 task_num);
 void 			OSSchedule(void);
 void 			OSScheduleCTRL(BOOL sw);
+BOOL 			OSIsRun(void);
 
 void 			OSEnterExclusiveMode(void);
 void 			OSExitExclusiveMode(void);

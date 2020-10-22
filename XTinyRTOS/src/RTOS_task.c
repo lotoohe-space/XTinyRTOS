@@ -357,7 +357,7 @@ _exit:
 void OSInit(void){
 	InitMem();
 	
-	OSScheduleSW=TRUE;/*调度开*/
+	OSScheduleSW=FALSE;/*调度开*/
 }
 
 /*******************************************************
@@ -370,6 +370,7 @@ void OSInit(void){
 void OSStart(void){
 	/*创建一个空闲任务,空闲任务的优先级为最低优先级*/
 	if(OSCreateTask(OSIdle,NULL,TASK_MIN_LEVEL,64)==FALSE){return ;}
+	OSScheduleSW=TRUE;
 	/*跳转到汇编启动操作系统*/
 	StartRTOS();
 }
@@ -408,6 +409,16 @@ void OSScheduleCTRL(BOOL sw){
 	OSEnterExclusiveMode();
 	OSScheduleSW = sw;
 	OSExitExclusiveMode();
+}
+/*******************************************************
+*
+* Function name :OSScheduleCTRL
+* Description        :OS是否在運行
+* Parameter         :无
+* Return          :运行状态
+**********************************************************/
+BOOL OSIsRun(void){
+	return OSScheduleSW;
 }
 /*******************************************************
 *

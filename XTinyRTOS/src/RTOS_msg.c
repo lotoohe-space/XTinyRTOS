@@ -80,7 +80,9 @@ uint32 MsgGet(PMSG_CB pMsgCB,void **msg,uint32 msgGetDelay){
 		OSExitExclusiveMode();
 		return TRUE;
 	} else {
-		OSTaskDelay(msgGetDelay);
+		if(msgGetDelay!=0){
+			OSTaskDelay(msgGetDelay);
+		}
 		if(MsgIsEmpty(pMsgCB)!=TRUE){
 			OSEnterExclusiveMode();
 			pMsgCB->front=(pMsgCB->front+1) % MSG_MAX_LEN;
@@ -112,7 +114,9 @@ uint32 MsgPut(PMSG_CB pMsgCB,void* msg,uint32 msgGetDelay){
 		OSExitExclusiveMode();	
 		return TRUE;
 	}else{
-		OSTaskDelay(msgGetDelay);
+		if(msgGetDelay!=0){
+			OSTaskDelay(msgGetDelay);
+		}
 		if(MsgIsFull(pMsgCB)==FALSE){
 			OSEnterExclusiveMode();
 			pMsgCB->rear=(pMsgCB->rear+1)%MSG_MAX_LEN;
